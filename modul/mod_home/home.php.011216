@@ -1,0 +1,158 @@
+<?php
+$aksi = "modul/mod_home/aksi_home.php";
+// mengatasi variabel yang belum di definisikan (notice undefined index)
+$act = isset($_GET['act']) ? $_GET['act'] : ''; 
+  switch($act){
+  default:
+
+  ?>
+
+
+
+
+											<?php
+												 $querytarget = "SELECT * FROM tbl_target WHERE id_target='1'";
+												$hasiltarget = mysqli_query($konek, $querytarget);
+												$t= mysqli_fetch_array($hasiltarget);
+												$tgt_value=$t['value'];
+
+												$query_bulan="SELECT MONTH(tgl_registrasiagen) MONTH, COUNT(*) COUNT FROM tbl_agent WHERE MONTH(tgl_registrasiagen)=MONTH(CURDATE()) GROUP BY YEAR(tgl_registrasiagen)";
+												$tampil_bulan = mysqli_query($konek, $query_bulan);
+												$b= mysqli_fetch_array($tampil_bulan);
+ 											   $valuebulan=$b['COUNT'];
+											   $valuebulan_persen = ($valuebulan / $tgt_value) * 100 ;
+
+											   $query_regtotal="SELECT  COUNT(*) COUNT FROM tbl_agent WHERE status=0  GROUP BY YEAR(`tgl_registrasiagen`)";
+												$tampil_regtotal = mysqli_query($konek, $query_regtotal);
+												$reg= mysqli_fetch_array($tampil_regtotal);
+ 											   $valueregtotal=$reg['COUNT'];
+											   $valueregtotal_persen = ($valueregtotal / $tgt_value) * 100 ;
+
+
+											   $query_aktivtotal="SELECT  COUNT(*) COUNT FROM tbl_agent WHERE status=1  GROUP BY YEAR(`tgl_registrasiagen`)";
+												$tampil_aktiftotal = mysqli_query($konek, $query_aktivtotal);
+												$aktif= mysqli_fetch_array($tampil_aktiftotal);
+ 											   $valueaktiftotal=$aktif['COUNT'];
+											   
+
+												
+
+							
+												$query_total="SELECT  COUNT(*) COUNT FROM tbl_agent WHERE status=1 and YEAR(`tgl_registrasiagen`)=YEAR(CURDATE()) GROUP BY YEAR(`tgl_registrasiagen`)";
+												$tampil_total = mysqli_query($konek, $query_total);
+												$r= mysqli_fetch_array($tampil_total);
+ 											   $valuetotal=$r['COUNT'];
+											   $valuetotal_persen = ($valuetotal / $tgt_value) * 100 ;
+																					
+												
+
+												?>
+
+						<div class="col-md-6 col-lg-12 col-xl-6">
+							<div class="row">
+								<div class="col-md-12 col-lg-6 col-xl-6">
+									<section class="panel panel-featured-left panel-featured-primary">
+										<div class="panel-body">
+											<div class="widget-summary">
+												<div class="widget-summary-col widget-summary-col-icon">
+													<div class="summary-icon bg-primary">
+														<i class="fa fa-calendar-o"></i>
+													</div>
+												</div>
+												<div class="widget-summary-col">
+													<div class="summary">
+														<h4 class="title">Bulan ini</h4>
+														<div class="info">
+															<strong class="amount"><?php echo  $valuebulan ?> Agen</strong>
+															<!--<span class="text-primary">(14 unread)</span>-->
+														</div>
+													</div>
+													<div class="summary-footer">
+														<a class="text-muted text-uppercase">Agen Aktif dan Non Aktif</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+								<div class="col-md-12 col-lg-6 col-xl-6">
+									<section class="panel panel-featured-left panel-featured-secondary">
+										<div class="panel-body">
+											<div class="widget-summary">
+												<div class="widget-summary-col widget-summary-col-icon">
+													<div class="summary-icon bg-secondary">
+														<i class="fa fa-user"></i>
+													</div>
+												</div>
+												<div class="widget-summary-col">
+													<div class="summary">
+														<h4 class="title">Agen Ter-register</h4>
+														<div class="info">
+															<strong class="amount"><?php echo $valueregtotal; ?> Agen</strong>
+														</div>
+													</div>
+													<div class="summary-footer">
+														<a class="text-muted text-uppercase">Agen belum aktif</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+								<div class="col-md-12 col-lg-6 col-xl-6">
+									<section class="panel panel-featured-left panel-featured-tertiary">
+										<div class="panel-body">
+											<div class="widget-summary">
+												<div class="widget-summary-col widget-summary-col-icon">
+													<div class="summary-icon bg-tertiary">
+														<i class="fa fa-calendar"></i>
+													</div>
+												</div>
+												<div class="widget-summary-col">
+													<div class="summary">
+														<h4 class="title">Tahun ini</h4>
+														<div class="info">
+															<strong class="amount"><?php echo $valuetotal; ?> Agen</strong>
+														</div>
+													</div>
+													<div class="summary-footer">
+														<a class="text-muted text-uppercase">Agen aktif</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+								<div class="col-md-12 col-lg-6 col-xl-6">
+									<section class="panel panel-featured-left panel-featured-quartenary">
+										<div class="panel-body">
+											<div class="widget-summary">
+												<div class="widget-summary-col widget-summary-col-icon">
+													<div class="summary-icon bg-quartenary">
+														<i class="fa fa-user"></i>
+													</div>
+												</div>
+												<div class="widget-summary-col">
+													<div class="summary">
+														<h4 class="title">Agen Aktif</h4>
+														<div class="info">
+															<strong class="amount"><?php echo $valueaktiftotal; ?> Agen</strong>
+														</div>
+													</div>
+													<div class="summary-footer">
+														<a class="text-muted text-uppercase">Total agen aktif</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</div>
+							</div>
+						</div>
+					</div>
+
+  <?php
+  break;
+ }
+
+?>

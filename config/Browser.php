@@ -33,6 +33,7 @@
  * This implementation is based on the original work from Gary White
  * http://apptools.com/phptools/browser/
  *
+ * check commit to fadel-develop
  */
 
 class Browser
